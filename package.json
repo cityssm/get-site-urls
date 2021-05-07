@@ -1,6 +1,6 @@
 {
 	"name": "@cityssm/get-site-urls",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "Get all of the URLs from a website.",
 	"scripts": {
 		"test": "mocha --timeout 20000",
@@ -11,9 +11,6 @@
 		"type": "git",
 		"url": "git+https://github.com/cityssm/get-site-urls.git"
 	},
-	"files": [
-		"index.js"
-	],
 	"keywords": [
 		"crawl",
 		"urls",
