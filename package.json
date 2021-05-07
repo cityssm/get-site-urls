@@ -1,13 +1,15 @@
 {
-	"name": "get-site-urls",
-	"version": "1.1.7",
-	"description": "Get all of the URL's from a website.",
+	"name": "@cityssm/get-site-urls",
+	"version": "2.0.0",
+	"description": "Get all of the URLs from a website.",
 	"scripts": {
-		"test": "ava && xo"
+		"test": "mocha --timeout 20000",
+		"test:debug": "cross-env DEBUG=get-site-urls npm test",
+		"coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary mocha --timeout 20000"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alex-page/get-site-urls.git"
+		"url": "git+https://github.com/cityssm/get-site-urls.git"
 	},
 	"files": [
 		"index.js"
@@ -21,9 +23,9 @@
 	],
 	"main": "index.js",
 	"author": {
-		"name": "Alex Page",
-		"email": "alex@alexpage.com.au",
-		"url": "http://alexpage.com.au"
+		"name": "The Corporation of the City of Sault Ste. Marie",
+		"email": "corporateapps@cityssm.on.ca",
+		"url": "https://saultstemarie.ca"
 	},
 	"contributors": [
 		{
@@ -34,15 +36,27 @@
 	],
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/alex-page/get-site-urls/issues"
-	},
-	"devDependencies": {
-		"ava": "^2.0.0",
-		"express": "^4.16.3",
-		"xo": "^0.24.0"
+		"url": "https://github.com/cityssm/get-site-urls/issues"
 	},
 	"dependencies": {
-		"got": "^9.3.2",
-		"normalize-url": "^4.0.0"
+		"axios": "^0.21.1",
+		"debug": "^4.3.1",
+		"normalize-url": "^6.0.0"
+	},
+	"devDependencies": {
+		"@types/debug": "^4.1.5",
+		"@types/mocha": "^8.2.2",
+		"@types/node": "^15.0.2",
+		"@typescript-eslint/eslint-plugin": "^4.22.1",
+		"@typescript-eslint/parser": "^4.22.1",
+		"c8": "^7.7.2",
+		"cross-env": "^7.0.3",
+		"eslint": "^7.25.0",
+		"eslint-config-standard-with-typescript": "^20.0.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-promise": "^4.3.1",
+		"mocha": "^8.4.0",
+		"typescript": "^4.2.4"
 	}
 }

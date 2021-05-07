@@ -1,54 +1,38 @@
-🔗 Get site URL's
-==============
+# get-site-urls
 
-> Get all of the URL's from a website.
+[![Codacy grade](https://img.shields.io/codacy/grade/0d191d20c48b4203a35590490a64564f)](https://app.codacy.com/gh/cityssm/get-site-urls/dashboard) [![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/cityssm/get-site-urls)](https://codeclimate.com/github/cityssm/get-site-urls) [![Code Climate coverage](https://img.shields.io/codeclimate/coverage/cityssm/get-site-urls)](https://codeclimate.com/github/cityssm/get-site-urls) ![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/cityssm/get-site-urls)
 
+Get all of the URLs from a website.
+
+Forked from [alex-page/get-site-urls](https://github.com/alex-page/get-site-urls).
 
 ## Install
 
-```console
-npm install get-site-urls
+```sh
+npm install @cityssm/get-site-urls
 ```
-
 
 ## Usage
 
-```js
-const GetSiteUrls = require( 'get-site-urls' );
+```javascript
+import { 'getSiteUrls' } from "@cityssm/get-site-urls";
 
-GetSiteUrls( 'https://alexpage.com.au' )
-	.then( links => console.log( links ) );
-
-GetSiteUrls( 'https://ds:ds@designsystem.apps.y.cld.gov.au' )
+getSiteUrls( 'https://saultstemarie.ca' )
 	.then( links => console.log( links ) );
 
 ( async () => {
-	const links = await GetSiteUrls( 'https://alexpage.com.au' );
+	const links = await getSiteUrls( 'https://saultstemarie.ca' );
 	console.log( links );
 })();
 ```
 
-
 ## Parameters
 
-The function GetSiteUrls takes two parameters:
+The function getSiteUrls takes two parameters:
 
+```javascript
+getSiteUrls( url, maxDepth );
 ```
-GetSiteUrls( url, maxDepth );
-```
 
-1. url - The url to search
-1. maxDepth - The maximum depth to search, default 100
-
-
-## Release History
-
-* v1.1.7 - Update dependencies and GitHub actions to yml syntax
-* v1.1.6 - Use `xo` and `ava`, update dependencies
-* v1.1.5 - Add tests for urls with ending slash, update documentation
-* v1.1.4 - Use files instead of `.npmignore`
-* v1.1.3 - Replace travis with GitHub actions
-* v1.1.2 - Update package.json link
-* v1.1.1 - Fix issue with CI
-* v1.1.0 - Fixing bugs with urls, adding tests and basic auth support
-* v1.0.0 - 💥 First commit
+1.  `url` - The url to search
+2.  `maxDepth` - The maximum depth to search, default 1
