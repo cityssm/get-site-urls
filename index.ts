@@ -1,5 +1,5 @@
+import { cleanUrl, getLinks } from "./utils.js";
 import axios from "axios";
-import * as normalizeUrl from "normalize-url";
 
 import type { SearchPages, SearchSettings, Pages } from "./types";
 import type { AxiosRequestConfig } from "axios";
@@ -7,60 +7,9 @@ import type { AxiosRequestConfig } from "axios";
 import * as Debug from "debug";
 const debug = Debug("get-site-urls");
 
-/*
- * Get all of the URLs from a website
- */
 
 /**
- * Clean the URL with normalize-url
- */
-const cleanUrl = (url: string) => {
-  return normalizeUrl(url, {
-    stripHash: true,
-    removeQueryParameters: [/.*/]
-  });
-};
-
-/**
- * Get all of the URLs from an array of strings
- */
-const getLinks = (data: string, pageUrl: string, siteUrl: string): string[] => {
-  // Regex link pattern
-  const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href="(.*?)"/g;
-  const links = [];
-
-  let result: RegExpExecArray;
-
-  // While there is a string to search
-  do {
-    // Search the string using the regex pattern
-    result = linkPattern.exec(data);
-
-    // If there is no result then end the search
-    if (result === null) {
-      break;
-    }
-
-    const link = result[1];
-
-    // If the link already starts with the URL
-    if (link.startsWith(siteUrl)) {
-      links.push(cleanUrl(link));
-    } else if (!link.startsWith("http") && !link.startsWith("https")
-    ) {
-      // Otherwise make sure it is relative or absolute
-      const pageLink = link.startsWith("/") ? `${siteUrl}${link}` : `${pageUrl}/${link}`;
-
-      links.push(cleanUrl(pageLink));
-    }
-  } while (result);
-
-  // Return the links
-  return links;
-};
-
-/**
-* Fetch all of the URL's from a website
+* Fetch all of the URLs from a website
 */
 const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: number): Promise<Pages> => {
   const {
@@ -131,10 +80,12 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
   return searchSite(settings, pages, depth + 1);
 };
 
+
 /**
- * Fetch all of the URL's from a website
+ * Fetch all of the URLs from a website
  */
 export const getSiteUrls = async (url: string, maxDepth = 1): Promise<Pages> => {
+
   const siteUrl = cleanUrl(url);
 
   const pages: SearchPages = {
