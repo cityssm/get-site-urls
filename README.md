@@ -23,6 +23,22 @@ getSiteUrls( 'https://saultstemarie.ca' )
 ( async () => {
 	const links = await getSiteUrls( 'https://saultstemarie.ca' );
 	console.log( links );
+
+	/*
+	{
+		pages: [
+			'https://saultstemarie.ca',
+			'https://saultstemarie.ca/City-Hall.aspx',
+			'https://saultstemarie.ca/City-Hall/City-Council.aspx',
+			...,
+			'https://saultstemarie.ca/Contact-Us.aspx',
+			'https://saultstemarie.ca/Site-Map.aspx'
+		],
+		errors: [
+			'https://saultstemarie.ca/Broken-Link.aspx'
+		]
+	}
+	*/
 })();
 ```
 
