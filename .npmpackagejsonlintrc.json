@@ -1,0 +1,35 @@
+{
+  "rules": {
+    "require-author": "error",
+    "require-description": "error",
+    "require-engines": "error",
+    "require-homepage": "error",
+    "require-keywords": "error",
+    "require-license": "error",
+    "require-name": "error",
+    "require-repository": "error",
+    "require-types": "error",
+    "require-typings": "error",
+    "require-version": "error",
+
+    "description-type": "error",
+    "devDependencies-type": "error",
+    "engines-type": "error",
+    "homepage-type": "error",
+    "keywords-type": "error",
+    "license-type": "error",
+    "name-type": "error",
+    "repository-type": "error",
+    "scripts-type": "error",
+    "version-type": "error",
+
+    "valid-values-author": ["error", [
+      "The Corporation of the City of Sault Ste. Marie"
+    ]],
+
+    "prefer-alphabetical-scripts": "error",
+
+    "prefer-property-order": ["error", []],
+    "no-duplicate-properties": "error"
+  }
+}

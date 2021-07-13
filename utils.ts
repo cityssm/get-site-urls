@@ -1,14 +1,21 @@
-import * as normalizeUrl from "normalize-url";
+import normalizeUrl from "normalize-url";
 
 
 /**
  * Clean the URL with normalize-url
  */
-export const cleanUrl = (url: string): string => {
-  return normalizeUrl(url, {
+export const cleanUrl = (url: string, goUpOneLevel = false): string => {
+
+  const urlWithoutHashAndParameters = normalizeUrl(url, {
     stripHash: true,
     removeQueryParameters: [/.*/]
   });
+
+  if (goUpOneLevel) {
+    return normalizeUrl(urlWithoutHashAndParameters + "/..");
+  }
+
+  return urlWithoutHashAndParameters;
 };
 
 
@@ -37,15 +44,20 @@ export const getLinks = (data: string, pageUrl: string, siteUrl: string): string
 
     // If the link already starts with the URL
     if (link.startsWith(siteUrl)) {
-      links.push(cleanUrl(link));
+      const urlToPush = cleanUrl(link);
+
+      links.push(urlToPush);
 
     } else if (!link.startsWith("http") && !link.startsWith("https")) {
 
       // Otherwise make sure it is relative or absolute
-      const pageLink = link.startsWith("/") ? `${siteUrl}${link}` : `${pageUrl}/${link}`;
+      const pageLink = cleanUrl(link.startsWith("/")
+        ? `${siteUrl}${link}`
+        : `${pageUrl}/${link}`);
 
-      links.push(cleanUrl(pageLink));
+      links.push(pageLink);
     }
+
   } while (result);
 
   // Return the links

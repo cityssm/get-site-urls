@@ -4,7 +4,7 @@ import axios from "axios";
 import type { SearchPages, SearchSettings, Pages } from "./types";
 import type { AxiosRequestConfig } from "axios";
 
-import * as Debug from "debug";
+import Debug from "debug";
 const debug = Debug("get-site-urls");
 
 
@@ -39,25 +39,25 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
       // Get the page header so we can check the type is text/html
       const { headers } = await axios.head(url, axiosOptions);
 
-      // If it is a HTML page get the body and search for links
+      // If it is an HTML page get the body and search for links
       if (headers["content-type"].includes("text/html")) {
 
         debug("Preparing to get the body...");
 
-        const res = await axios(url, axiosOptions);
+        const response = await axios(url, axiosOptions);
 
-        const body = res.data as string;
+        const body = response.data as string;
 
         // Add to found as it is a HTML page
         pages.found.add(url);
 
         // Add the unique links to the queue
-        getLinks(body, url, cleanUrl(siteUrl)).forEach(link => {
+        for (const link of getLinks(body, url, cleanUrl(siteUrl))) {
           // If the link is not in error or found add to queue
           if (!pages.found.has(link) && !pages.errors.has(link)) {
             pages.queue.add(link);
           }
-        });
+        }
       }
     } catch (error) {
       debug(error);
@@ -86,7 +86,9 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
  */
 export const getSiteUrls = async (url: string, maxDepth = 1): Promise<Pages> => {
 
-  const siteUrl = cleanUrl(url);
+  const goUpOneLevel = url.includes("?") && !(url.includes("/?"));
+
+  const siteUrl = cleanUrl(url, goUpOneLevel);
 
   const pages: SearchPages = {
     queue: new Set<string>([url]),

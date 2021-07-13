@@ -1,59 +1,68 @@
 {
-	"name": "@cityssm/get-site-urls",
-	"version": "2.0.2",
-	"description": "Get all of the URLs from a website.",
-	"scripts": {
-		"test": "mocha --timeout 20000",
-		"test:debug": "cross-env DEBUG=get-site-urls npm test",
-		"coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary mocha --timeout 20000"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/cityssm/get-site-urls.git"
-	},
-	"keywords": [
-		"crawl",
-		"urls",
-		"get",
-		"site",
-		"links"
-	],
-	"main": "index.js",
-	"author": {
-		"name": "The Corporation of the City of Sault Ste. Marie",
-		"email": "corporateapps@cityssm.on.ca",
-		"url": "https://saultstemarie.ca"
-	},
-	"contributors": [
-		{
-			"name": "Alex Page",
-			"email": "alex@alexpage.com.au",
-			"url": "http://alexpage.com.au"
-		}
-	],
-	"license": "MIT",
+  "name": "@cityssm/get-site-urls",
+  "version": "3.0.0",
+  "description": "Get all of the URLs from a website.",
+  "keywords": [
+    "crawl",
+    "urls",
+    "get",
+    "site",
+    "links",
+		"index"
+  ],
+  "homepage": "https://github.com/cityssm/get-site-urls",
 	"bugs": {
 		"url": "https://github.com/cityssm/get-site-urls/issues"
 	},
-	"dependencies": {
-		"axios": "^0.21.1",
-		"debug": "^4.3.1",
-		"normalize-url": "^6.0.1"
-	},
-	"devDependencies": {
-		"@types/debug": "^4.1.5",
-		"@types/mocha": "^8.2.2",
-		"@types/node": "^15.6.1",
-		"@typescript-eslint/eslint-plugin": "^4.25.0",
-		"@typescript-eslint/parser": "^4.25.0",
-		"c8": "^7.7.2",
-		"cross-env": "^7.0.3",
-		"eslint": "^7.27.0",
-		"eslint-config-standard-with-typescript": "^20.0.0",
-		"eslint-plugin-import": "^2.23.3",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-promise": "^5.1.0",
-		"mocha": "^8.4.0",
-		"typescript": "^4.2.4"
+  "license": "MIT",
+  "author": {
+    "name": "The Corporation of the City of Sault Ste. Marie",
+    "email": "corporateapps@cityssm.on.ca",
+    "url": "https://saultstemarie.ca"
+  },
+  "contributors": [{
+    "name": "Alex Page",
+    "email": "alex@alexpage.com.au",
+    "url": "http://alexpage.com.au"
+  }],
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "typings": "./index.d.ts",
+	"type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cityssm/get-site-urls.git"
+  },
+  "scripts": {
+    "coverage": "c8 --reporter=lcov --reporter=text --reporter=text-summary mocha --timeout 20000",
+    "lint:packageJSON": "npmPkgJsonLint .",
+    "test": "mocha --timeout 20000",
+    "test:debug": "cross-env DEBUG=get-site-urls npm test"
+  },
+  "exports": {
+    "*": {
+      ".": "./index.js"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "debug": "^4.3.2",
+    "normalize-url": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.6",
+    "@types/mocha": "^8.2.3",
+    "@types/node": "^16.3.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.30.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-unicorn": "^34.0.1"
+  },
+	"engines": {
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
 	}
 }

@@ -1,9 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSiteUrls = void 0;
-const utils_js_1 = require("./utils.js");
-const axios_1 = require("axios");
-const Debug = require("debug");
+import { cleanUrl, getLinks } from "./utils.js";
+import axios from "axios";
+import Debug from "debug";
 const debug = Debug("get-site-urls");
 const searchSite = async (settings, pages, depth) => {
     const { siteUrl, maxDepth, username, password } = settings;
@@ -17,17 +14,17 @@ const searchSite = async (settings, pages, depth) => {
                     password
                 };
             }
-            const { headers } = await axios_1.default.head(url, axiosOptions);
+            const { headers } = await axios.head(url, axiosOptions);
             if (headers["content-type"].includes("text/html")) {
                 debug("Preparing to get the body...");
-                const res = await axios_1.default(url, axiosOptions);
-                const body = res.data;
+                const response = await axios(url, axiosOptions);
+                const body = response.data;
                 pages.found.add(url);
-                utils_js_1.getLinks(body, url, utils_js_1.cleanUrl(siteUrl)).forEach(link => {
+                for (const link of getLinks(body, url, cleanUrl(siteUrl))) {
                     if (!pages.found.has(link) && !pages.errors.has(link)) {
                         pages.queue.add(link);
                     }
-                });
+                }
             }
         }
         catch (error) {
@@ -44,8 +41,9 @@ const searchSite = async (settings, pages, depth) => {
     }
     return searchSite(settings, pages, depth + 1);
 };
-const getSiteUrls = async (url, maxDepth = 1) => {
-    const siteUrl = utils_js_1.cleanUrl(url);
+export const getSiteUrls = async (url, maxDepth = 1) => {
+    const goUpOneLevel = url.includes("?") && !(url.includes("/?"));
+    const siteUrl = cleanUrl(url, goUpOneLevel);
     const pages = {
         queue: new Set([url]),
         found: new Set([]),
@@ -60,4 +58,3 @@ const getSiteUrls = async (url, maxDepth = 1) => {
     };
     return await searchSite(settings, pages, 0);
 };
-exports.getSiteUrls = getSiteUrls;

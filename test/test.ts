@@ -4,6 +4,11 @@ import { getSiteUrls } from "../index.js";
 
 describe("getSiteUrls()", () => {
 
+  it("Has results for futuressm.com (webpage with query parameters)", async() => {
+    const urls = await getSiteUrls("https://futuressm.com/index.cfm?fuseaction=content&menuid=8&pageid=1007");
+    assert.ok(urls.pages.length > 0);
+  });
+
   it("Has results for saultstemarie.ca", async() => {
     const urls = await getSiteUrls("https://saultstemarie.ca");
     assert.ok(urls.pages.length > 0);
