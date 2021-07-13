@@ -1,6 +1,6 @@
 {
   "name": "@cityssm/get-site-urls",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Get all of the URLs from a website.",
   "keywords": [
     "crawl",
@@ -39,11 +39,7 @@
     "test": "mocha --timeout 20000",
     "test:debug": "cross-env DEBUG=get-site-urls npm test"
   },
-  "exports": {
-    "*": {
-      ".": "./index.js"
-    }
-  },
+  "exports": "./index.js",
   "dependencies": {
     "axios": "^0.21.1",
     "debug": "^4.3.2",
