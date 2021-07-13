@@ -10,5 +10,6 @@ test
 .eslintrc.js
 .gitignore
 .npmignore
+.npmpackagejsonlintrc.json
 appveyor.yml
 tsconfig.json
