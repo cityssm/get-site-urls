@@ -9,7 +9,11 @@ export const cleanUrl = (url, goUpOneLevel = false) => {
     }
     return urlWithoutHashAndParameters;
 };
+const extractDomainUrl = (url) => {
+    return url.split("/").slice(0, 3).join("/");
+};
 export const getLinks = (data, pageUrl, siteUrl) => {
+    const domainUrl = extractDomainUrl(pageUrl);
     const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href="(.*?)"/g;
     const links = [];
     let result;
@@ -25,7 +29,7 @@ export const getLinks = (data, pageUrl, siteUrl) => {
         }
         else if (!link.startsWith("http") && !link.startsWith("https")) {
             const pageLink = cleanUrl(link.startsWith("/")
-                ? `${siteUrl}${link}`
+                ? `${domainUrl}${link}`
                 : `${pageUrl}/${link}`);
             links.push(pageLink);
         }

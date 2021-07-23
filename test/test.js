@@ -13,4 +13,8 @@ describe("getSiteUrls()", () => {
         const urls = await getSiteUrls("https://saultstemarie.ca/Broken-Link-" + Date.now().toString() + ".aspx");
         assert.ok(urls.errors.length > 0);
     });
+    it("Has results for cityssm.github.io/lottery-licence-manager (with depth)", async () => {
+        const urls = await getSiteUrls("https://cityssm.github.io/lottery-licence-manager/", 2);
+        assert.ok(urls.pages.length > 0);
+    });
 });

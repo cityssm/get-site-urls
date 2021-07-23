@@ -19,10 +19,17 @@ export const cleanUrl = (url: string, goUpOneLevel = false): string => {
 };
 
 
+const extractDomainUrl = (url: string): string => {
+  return url.split("/").slice(0,3).join("/");
+};
+
+
 /**
  * Get all of the URLs from an array of strings
  */
 export const getLinks = (data: string, pageUrl: string, siteUrl: string): string[] => {
+
+  const domainUrl = extractDomainUrl(pageUrl);
 
   // Regex link pattern
   const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href="(.*?)"/g;
@@ -52,7 +59,7 @@ export const getLinks = (data: string, pageUrl: string, siteUrl: string): string
 
       // Otherwise make sure it is relative or absolute
       const pageLink = cleanUrl(link.startsWith("/")
-        ? `${siteUrl}${link}`
+        ? `${domainUrl}${link}`
         : `${pageUrl}/${link}`);
 
       links.push(pageLink);
