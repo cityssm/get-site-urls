@@ -41,7 +41,7 @@
   },
   "exports": "./index.js",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.3",
     "debug": "^4.3.2",
     "normalize-url": "^7.0.0"
   },
