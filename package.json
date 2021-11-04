@@ -1,6 +1,6 @@
 {
   "name": "@cityssm/get-site-urls",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Get all of the URLs from a website.",
   "keywords": [
     "crawl",
@@ -8,27 +8,29 @@
     "get",
     "site",
     "links",
-		"index"
+    "index"
   ],
   "homepage": "https://github.com/cityssm/get-site-urls",
-	"bugs": {
-		"url": "https://github.com/cityssm/get-site-urls/issues"
-	},
+  "bugs": {
+    "url": "https://github.com/cityssm/get-site-urls/issues"
+  },
   "license": "MIT",
   "author": {
     "name": "The Corporation of the City of Sault Ste. Marie",
     "email": "corporateapps@cityssm.on.ca",
     "url": "https://saultstemarie.ca"
   },
-  "contributors": [{
-    "name": "Alex Page",
-    "email": "alex@alexpage.com.au",
-    "url": "http://alexpage.com.au"
-  }],
+  "contributors": [
+    {
+      "name": "Alex Page",
+      "email": "alex@alexpage.com.au",
+      "url": "http://alexpage.com.au"
+    }
+  ],
   "main": "./index.js",
   "types": "./index.d.ts",
   "typings": "./index.d.ts",
-	"type": "module",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cityssm/get-site-urls.git"
@@ -41,24 +43,25 @@
   },
   "exports": "./index.js",
   "dependencies": {
-    "axios": "^0.21.4",
+    "axios": "^0.24.0",
     "debug": "^4.3.2",
     "normalize-url": "^7.0.2"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/debug": "^4.1.7",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.9.1",
-    "@typescript-eslint/eslint-plugin": "^4.31.0",
-    "@typescript-eslint/parser": "^4.31.0",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-unicorn": "^35.0.0"
+    "eslint-plugin-promise": "^5.1.1",
+    "eslint-plugin-unicorn": "^38.0.0"
   },
-	"engines": {
-		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
-	}
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  }
 }
