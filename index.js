@@ -7,7 +7,10 @@ const searchSite = async (settings, pages, depth) => {
     const links = [...pages.queue].map(async (url) => {
         pages.queue.delete(url);
         try {
-            const axiosOptions = {};
+            const axiosOptions = {
+                timeout: 30000,
+                httpAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
+            };
             if (username && password) {
                 axiosOptions.auth = {
                     username,

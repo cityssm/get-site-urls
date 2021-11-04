@@ -27,7 +27,10 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
 
     try {
 
-      const axiosOptions: AxiosRequestConfig = {};
+      const axiosOptions: AxiosRequestConfig = {
+        timeout: 30_000,
+        httpAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
+      };
 
       if (username && password) {
         axiosOptions.auth = {
