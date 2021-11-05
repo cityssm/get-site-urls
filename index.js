@@ -1,16 +1,19 @@
 import { cleanUrl, getLinks, sleep } from "./utils.js";
 import * as config from "./config.js";
+import { Semaphore } from "async-mutex";
 import axios from "axios";
 import Debug from "debug";
 const debug = Debug("get-site-urls");
 const searchSite = async (settings, pages, depth) => {
     const { siteUrl, maxDepth, username, password } = settings;
+    const lock = new Semaphore(config.maxRequestCount);
     let sleepMillis = 0;
     let throttleSleepMillis = config.throttleSleepMillis;
     const links = [...pages.queue].map(async (url) => {
         pages.queue.delete(url);
         sleepMillis += throttleSleepMillis;
         await sleep(sleepMillis);
+        const [_lockValue, lockRelease] = await lock.acquire();
         try {
             const axiosOptions = {
                 timeout: config.axios_requestTimeoutMillis,
@@ -22,11 +25,12 @@ const searchSite = async (settings, pages, depth) => {
                     password
                 };
             }
-            const startMillis = Date.now();
+            const headerStartMillis = Date.now();
             debug("Getting headers: " + url);
             const { headers } = await axios.head(url, axiosOptions);
-            throttleSleepMillis = (throttleSleepMillis + (Date.now() - startMillis)) / 2;
+            throttleSleepMillis = (throttleSleepMillis + (Date.now() - headerStartMillis)) / 2;
             if (headers["content-type"].includes("text/html")) {
+                await sleep(throttleSleepMillis);
                 debug("Preparing to get the body: " + url);
                 const response = await axios(url, axiosOptions);
                 const body = response.data;
@@ -43,6 +47,9 @@ const searchSite = async (settings, pages, depth) => {
             debug("Error loading URL: " + url);
             debug(error);
             pages.errors.add(url);
+        }
+        finally {
+            lockRelease();
         }
     });
     await Promise.all(links);

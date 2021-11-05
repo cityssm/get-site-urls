@@ -1,6 +1,7 @@
 import { cleanUrl, getLinks, sleep } from "./utils.js";
 import * as config from "./config.js";
 
+import { Semaphore } from "async-mutex";
 import axios from "axios";
 
 import type { SearchPages, SearchSettings, Pages } from "./types";
@@ -21,6 +22,8 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
     password
   } = settings;
 
+  const lock = new Semaphore(config.maxRequestCount);
+
   let sleepMillis = 0;
   let throttleSleepMillis = config.throttleSleepMillis;
 
@@ -33,6 +36,9 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
     sleepMillis += throttleSleepMillis;
 
     await sleep(sleepMillis);
+
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    const [_lockValue, lockRelease] = await lock.acquire();
 
     try {
 
@@ -50,15 +56,17 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
 
       // Get the page header so we can check the type is text/html
 
-      const startMillis = Date.now();
+      const headerStartMillis = Date.now();
 
       debug("Getting headers: " + url);
       const { headers } = await axios.head(url, axiosOptions);
 
-      throttleSleepMillis = (throttleSleepMillis + (Date.now() - startMillis)) / 2;
+      throttleSleepMillis = (throttleSleepMillis + (Date.now() - headerStartMillis)) / 2;
 
       // If it is an HTML page get the body and search for links
       if (headers["content-type"].includes("text/html")) {
+
+        await sleep(throttleSleepMillis);
 
         debug("Preparing to get the body: " + url);
 
@@ -82,6 +90,8 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
       debug("Error loading URL: " + url);
       debug(error);
       pages.errors.add(url);
+    } finally {
+      lockRelease();
     }
   });
 
