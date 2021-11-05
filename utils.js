@@ -1,4 +1,9 @@
 import normalizeUrl from "normalize-url";
+export const sleep = (millis) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, millis);
+    });
+};
 export const cleanUrl = (url, goUpOneLevel = false) => {
     const urlWithoutHashAndParameters = normalizeUrl(url, {
         stripHash: true,

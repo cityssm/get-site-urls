@@ -1,6 +1,13 @@
 import normalizeUrl from "normalize-url";
 
 
+export const sleep = (millis: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, millis);
+  });
+}
+
+
 /**
  * Clean the URL with normalize-url
  */

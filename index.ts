@@ -1,4 +1,6 @@
-import { cleanUrl, getLinks } from "./utils.js";
+import { cleanUrl, getLinks, sleep } from "./utils.js";
+import * as config from "./config.js";
+
 import axios from "axios";
 
 import type { SearchPages, SearchSettings, Pages } from "./types";
@@ -19,17 +21,24 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
     password
   } = settings;
 
+  let sleepMillis = 0;
+  let throttleSleepMillis = config.throttleSleepMillis;
+
   // For each url fetch the page data
   const links = [...pages.queue].map(async url => {
 
     // Delete the URL from queue
     pages.queue.delete(url);
 
+    sleepMillis += throttleSleepMillis;
+
+    await sleep(sleepMillis);
+
     try {
 
       const axiosOptions: AxiosRequestConfig = {
-        timeout: 30_000,
-        httpAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
+        timeout: config.axios_requestTimeoutMillis,
+        httpAgent: config.axios_httpAgent
       };
 
       if (username && password) {
@@ -40,12 +49,18 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
       }
 
       // Get the page header so we can check the type is text/html
+
+      const startMillis = Date.now();
+
+      debug("Getting headers: " + url);
       const { headers } = await axios.head(url, axiosOptions);
+
+      throttleSleepMillis = (throttleSleepMillis + (Date.now() - startMillis)) / 2;
 
       // If it is an HTML page get the body and search for links
       if (headers["content-type"].includes("text/html")) {
 
-        debug("Preparing to get the body...");
+        debug("Preparing to get the body: " + url);
 
         const response = await axios(url, axiosOptions);
 
@@ -55,7 +70,8 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
         pages.found.add(url);
 
         // Add the unique links to the queue
-        for (const link of getLinks(body, url, cleanUrl(siteUrl))) {
+        const pageLinks = getLinks(body, url, cleanUrl(siteUrl));
+        for (const link of pageLinks) {
           // If the link is not in error or found add to queue
           if (!pages.found.has(link) && !pages.errors.has(link)) {
             pages.queue.add(link);
@@ -63,6 +79,7 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
         }
       }
     } catch (error) {
+      debug("Error loading URL: " + url);
       debug(error);
       pages.errors.add(url);
     }
@@ -80,7 +97,7 @@ const searchSite = async (settings: SearchSettings, pages: SearchPages, depth: n
   }
 
   // Start the search again as the queue has more to search
-  return searchSite(settings, pages, depth + 1);
+  return await searchSite(settings, pages, depth + 1);
 };
 
 
