@@ -39,7 +39,7 @@ export const getLinks = (data: string, pageUrl: string, siteUrl: string): string
   const domainUrl = extractDomainUrl(pageUrl);
 
   // Regex link pattern
-  const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href="(.*?)"/g;
+  const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href=["'](.*?)["']/g;
   const links = [];
 
   let result: RegExpExecArray;

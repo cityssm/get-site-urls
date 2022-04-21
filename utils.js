@@ -19,7 +19,7 @@ const extractDomainUrl = (url) => {
 };
 export const getLinks = (data, pageUrl, siteUrl) => {
     const domainUrl = extractDomainUrl(pageUrl);
-    const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href="(.*?)"/g;
+    const linkPattern = /(?!.*mailto:)(?!.*tel:).<a[^>]+href=["'](.*?)["']/g;
     const links = [];
     let result;
     do {
