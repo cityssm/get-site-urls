@@ -62,7 +62,7 @@ const searchSite = async (settings, pages, depth) => {
     return await searchSite(settings, pages, depth + 1);
 };
 export const getSiteUrls = async (url, maxDepth = 1) => {
-    const goUpOneLevel = url.includes("?") && !(url.includes("/?"));
+    const goUpOneLevel = url.includes("?") && !url.includes("/?");
     const siteUrl = cleanUrl(url, goUpOneLevel);
     const pages = {
         queue: new Set([url]),

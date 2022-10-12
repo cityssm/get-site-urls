@@ -33,9 +33,7 @@ export const getLinks = (data, pageUrl, siteUrl) => {
             links.push(urlToPush);
         }
         else if (!link.startsWith("http") && !link.startsWith("https")) {
-            const pageLink = cleanUrl(link.startsWith("/")
-                ? `${domainUrl}${link}`
-                : `${pageUrl}/${link}`);
+            const pageLink = cleanUrl(link.startsWith("/") ? `${domainUrl}${link}` : `${pageUrl}/${link}`);
             links.push(pageLink);
         }
     } while (result);
