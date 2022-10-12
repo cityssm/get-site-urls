@@ -44,7 +44,7 @@
     "exports": "./index.js",
     "dependencies": {
         "async-mutex": "^0.4.0",
-        "axios": "^0.27.2",
+        "axios": "^1.1.2",
         "debug": "^4.3.4",
         "normalize-url": "^7.2.0"
     },
